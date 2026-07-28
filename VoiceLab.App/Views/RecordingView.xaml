@@ -1,0 +1,135 @@
+<UserControl x:Class="VoiceLab.App.Views.RecordingView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <UserControl.Resources>
+    <Style x:Key="AdvancedHeaderToggleStyle" TargetType="ToggleButton">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Padding" Value="0"/>
+      <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+      <Setter Property="FocusVisualStyle" Value="{StaticResource KeyboardFocusStyle}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ToggleButton">
+            <Border x:Name="HeaderBackground" Background="{TemplateBinding Background}" CornerRadius="7" Padding="3">
+              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="HeaderBackground" Property="Background" Value="{StaticResource HoverBackgroundBrush}"/></Trigger>
+              <Trigger Property="IsPressed" Value="True"><Setter TargetName="HeaderBackground" Property="Background" Value="{StaticResource PressedBackgroundBrush}"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </UserControl.Resources>
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <Border Padding="0,0,0,22">
+      <StackPanel MaxWidth="1100">
+        <TextBlock Text="{DynamicResource Recording.Title}" Style="{StaticResource PageTitleStyle}"/>
+        <TextBlock Text="{DynamicResource Recording.Description}" Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,20"/>
+
+        <Border Style="{StaticResource CardStyle}"><StackPanel>
+          <TextBlock Text="{DynamicResource Recording.Controls}" Style="{StaticResource SectionTitleStyle}"/>
+          <WrapPanel><Button Content="{DynamicResource Common.StartRecording}" Command="{Binding Workspace.StartRecordingCommand, Mode=OneWay}" Style="{StaticResource PrimaryButtonStyle}" AutomationProperties.Name="{DynamicResource Common.StartRecording}"/><Button Content="{DynamicResource Common.Pause}" Command="{Binding Workspace.PauseRecordingCommand, Mode=OneWay}"/><Button Content="{DynamicResource Common.Resume}" Command="{Binding Workspace.ResumeRecordingCommand, Mode=OneWay}"/><Button Content="{DynamicResource Common.StopRecording}" Command="{Binding Workspace.StopRecordingCommand, Mode=OneWay}" Style="{StaticResource DangerButtonStyle}"/></WrapPanel>
+          <Grid Margin="0,14,0,0"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+            <StackPanel Margin="0,0,18,0"><TextBlock Text="{DynamicResource Recording.CurrentState}" Style="{StaticResource MutedTextStyle}"/><TextBlock Text="{Binding Workspace.RecordingStatus, Mode=OneWay}" FontSize="17" FontWeight="SemiBold"/></StackPanel>
+            <StackPanel Grid.Column="1"><TextBlock Text="{DynamicResource Recording.Duration}" Style="{StaticResource MutedTextStyle}"/><TextBlock Text="{Binding Workspace.RecordingDuration, Mode=OneWay}" FontSize="22" FontWeight="SemiBold"/></StackPanel>
+          </Grid>
+          <TextBlock Text="{Binding Workspace.Error, Mode=OneWay}" Foreground="{StaticResource DangerBrush}" FontWeight="SemiBold" Margin="0,10,0,0"/>
+        </StackPanel></Border>
+
+        <Border Style="{StaticResource CardStyle}"><StackPanel>
+          <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+            <StackPanel Margin="0,0,18,0"><Grid><TextBlock Text="{DynamicResource Dsp.Input}" FontWeight="SemiBold"/><TextBlock Text="{Binding Workspace.InputRms, StringFormat={}{0:F0}% RMS, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><ProgressBar Value="{Binding Workspace.InputLevel, Mode=OneWay}" Maximum="100" Margin="0,5,0,0"/></StackPanel>
+            <StackPanel Grid.Column="1"><Grid><TextBlock Text="{DynamicResource Dsp.ProcessedOutput}" FontWeight="SemiBold"/><TextBlock Text="{Binding Workspace.OutputRms, StringFormat={}{0:F0}% RMS, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><ProgressBar Value="{Binding Workspace.OutputLevel, Mode=OneWay}" Maximum="100" Margin="0,5,0,0"/></StackPanel>
+          </Grid>
+          <TextBlock Text="{Binding Workspace.ClippingWarning, Mode=OneWay}" Foreground="{StaticResource WarningBrush}" FontWeight="SemiBold" Margin="0,10,0,0"/>
+          <WrapPanel Margin="0,9,0,0"><TextBlock Text="{DynamicResource Dsp.ActiveSampleRate}" Style="{StaticResource SecondaryTextStyle}"/><TextBlock Text="{Binding Workspace.Format, Mode=OneWay}" Style="{StaticResource SecondaryTextStyle}" Margin="4,0,24,0"/><TextBlock Text="{DynamicResource Dsp.LatencyProfile}" Style="{StaticResource SecondaryTextStyle}"/><TextBlock Text="{Binding Workspace.SelectedLatencyProfileDisplay, Mode=OneWay}" Style="{StaticResource SecondaryTextStyle}" Margin="4,0,24,0"/><TextBlock Text="{DynamicResource Dsp.EstimatedBuffering}" Style="{StaticResource SecondaryTextStyle}"/><TextBlock Text="{Binding Workspace.Latency, Mode=OneWay}" Style="{StaticResource SecondaryTextStyle}" Margin="4,0,0,0"/></WrapPanel>
+        </StackPanel></Border>
+
+        <Border Style="{StaticResource CardStyle}"><StackPanel>
+          <TextBlock Text="{DynamicResource Dsp.ActivePreset}" Style="{StaticResource SectionTitleStyle}"/>
+          <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <ComboBox ItemsSource="{Binding Workspace.Presets, Mode=OneWay}" SelectedItem="{Binding Workspace.SelectedPreset}" DisplayMemberPath="Name"/>
+            <Border Grid.Column="1" Style="{StaticResource BadgeStyle}" Margin="10,0,0,0" VerticalAlignment="Center"><TextBlock Text="{Binding Workspace.PresetKind, Mode=OneWay}" Foreground="{StaticResource WarningBrush}" FontWeight="SemiBold"/></Border>
+          </Grid>
+          <TextBlock Text="{Binding Workspace.CustomStatus, Mode=OneWay}" Style="{StaticResource SecondaryTextStyle}" Margin="0,8,0,0"/>
+        </StackPanel></Border>
+
+        <Border Style="{StaticResource CardStyle}">
+          <StackPanel>
+            <ToggleButton x:Name="AdvancedToggle" IsChecked="{Binding IsAdvancedControlsExpanded, Mode=TwoWay}" Style="{StaticResource AdvancedHeaderToggleStyle}" Checked="AdvancedToggle_Checked" Unchecked="AdvancedToggle_Unchecked">
+              <Grid>
+                <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <StackPanel>
+                  <TextBlock Text="{DynamicResource Dsp.Controls}" Style="{StaticResource SectionTitleStyle}" Margin="0"/>
+                  <TextBlock Text="{Binding AdvancedControlsSummary, Mode=OneWay}" Margin="0,5,16,0" TextWrapping="Wrap">
+                    <TextBlock.Style>
+                      <Style TargetType="TextBlock" BasedOn="{StaticResource SecondaryTextStyle}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers><DataTrigger Binding="{Binding IsChecked, ElementName=AdvancedToggle, Mode=OneWay}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers>
+                      </Style>
+                    </TextBlock.Style>
+                  </TextBlock>
+                </StackPanel>
+                <Path Grid.Column="1" Width="12" Height="7" Stretch="Fill" Stroke="{StaticResource SecondaryTextBrush}" StrokeThickness="1.6" StrokeLineJoin="Round" VerticalAlignment="Center" Margin="18,0,4,0">
+                  <Path.Style>
+                    <Style TargetType="Path">
+                      <Setter Property="Data" Value="M 0 0 L 6 6 L 12 0"/>
+                      <Style.Triggers><DataTrigger Binding="{Binding IsChecked, ElementName=AdvancedToggle, Mode=OneWay}" Value="True"><Setter Property="Data" Value="M 0 6 L 6 0 L 12 6"/></DataTrigger></Style.Triggers>
+                    </Style>
+                  </Path.Style>
+                </Path>
+              </Grid>
+            </ToggleButton>
+
+            <Border x:Name="AdvancedContent" Visibility="Collapsed" Opacity="0" Margin="0,18,0,0" ClipToBounds="True">
+              <StackPanel>
+                <Grid>
+                  <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+                  <StackPanel Margin="0,0,20,0">
+                    <Grid><TextBlock Text="{DynamicResource Dsp.InputGain}"/><TextBlock Text="{Binding Workspace.InputGain, StringFormat={}{0:F2}, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><Slider Minimum="0" Maximum="2" Value="{Binding Workspace.InputGain}"/>
+                    <Grid><TextBlock Text="{DynamicResource Dsp.Pitch}"/><TextBlock Text="{Binding Workspace.PitchSemitones, StringFormat={}{0:F1} semitones, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><Slider Minimum="-12" Maximum="12" Value="{Binding Workspace.PitchSemitones}"/>
+                    <Grid><TextBlock Text="{DynamicResource Dsp.ToneDepth}"/><TextBlock Text="{Binding Workspace.VoiceDepth, StringFormat={}{0:F2}, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><Slider Minimum="-1" Maximum="1" Value="{Binding Workspace.VoiceDepth}"/>
+                    <Grid><TextBlock Text="{DynamicResource Dsp.Brightness}"/><TextBlock Text="{Binding Workspace.Brightness, StringFormat={}{0:F2}, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><Slider Minimum="-1" Maximum="1" Value="{Binding Workspace.Brightness}"/>
+                  </StackPanel>
+                  <StackPanel Grid.Column="1">
+                    <Grid><TextBlock Text="{DynamicResource Dsp.Bass}"/><TextBlock Text="{Binding Workspace.Bass, StringFormat={}{0:F1} dB, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><Slider Minimum="-12" Maximum="12" Value="{Binding Workspace.Bass}"/>
+                    <Grid><TextBlock Text="{DynamicResource Dsp.Treble}"/><TextBlock Text="{Binding Workspace.Treble, StringFormat={}{0:F1} dB, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><Slider Minimum="-12" Maximum="12" Value="{Binding Workspace.Treble}"/>
+                    <Grid><TextBlock Text="{DynamicResource Dsp.ToneMix}"/><TextBlock Text="{Binding Workspace.ToneMix, StringFormat={}{0:P0}, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><Slider Minimum="0" Maximum="1" Value="{Binding Workspace.ToneMix}"/>
+                    <Grid><TextBlock Text="{DynamicResource Dsp.OutputGain}"/><TextBlock Text="{Binding Workspace.OutputGain, StringFormat={}{0:P0}, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><Slider Minimum="0" Maximum="1" Value="{Binding Workspace.OutputGain}"/>
+                  </StackPanel>
+                </Grid>
+
+                <Border BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="0,1,0,0" Margin="0,4,0,15"/>
+                <UniformGrid Columns="2">
+                  <StackPanel Margin="0,0,20,10"><CheckBox Content="{DynamicResource Dsp.NoiseGate}" IsChecked="{Binding Workspace.GateEnabled}"/><Grid><TextBlock Text="{DynamicResource Dsp.Threshold}" Style="{StaticResource SecondaryTextStyle}"/><TextBlock Text="{Binding Workspace.GateThreshold, StringFormat={}{0:F0} dB, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><Slider Minimum="-80" Maximum="0" Value="{Binding Workspace.GateThreshold}"/></StackPanel>
+                  <StackPanel Margin="0,0,0,10"><CheckBox Content="{DynamicResource Dsp.Robot}" IsChecked="{Binding Workspace.RobotEnabled}"/><Grid><TextBlock Text="{DynamicResource Dsp.Mix}" Style="{StaticResource SecondaryTextStyle}"/><TextBlock Text="{Binding Workspace.RobotMix, StringFormat={}{0:P0}, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><Slider Minimum="0" Maximum="1" Value="{Binding Workspace.RobotMix}"/></StackPanel>
+                  <StackPanel Margin="0,0,20,0"><CheckBox Content="{DynamicResource Dsp.Echo}" IsChecked="{Binding Workspace.EchoEnabled}"/><Grid><TextBlock Text="{DynamicResource Dsp.Mix}" Style="{StaticResource SecondaryTextStyle}"/><TextBlock Text="{Binding Workspace.EchoMix, StringFormat={}{0:P0}, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><Slider Minimum="0" Maximum="1" Value="{Binding Workspace.EchoMix}"/></StackPanel>
+                  <StackPanel><CheckBox Content="{DynamicResource Dsp.Reverb}" IsChecked="{Binding Workspace.ReverbEnabled}"/><Grid><TextBlock Text="{DynamicResource Dsp.Mix}" Style="{StaticResource SecondaryTextStyle}"/><TextBlock Text="{Binding Workspace.ReverbMix, StringFormat={}{0:P0}, Mode=OneWay}" HorizontalAlignment="Right" Style="{StaticResource MutedTextStyle}"/></Grid><Slider Minimum="0" Maximum="0.8" Value="{Binding Workspace.ReverbMix}"/></StackPanel>
+                </UniformGrid>
+                <TextBlock Text="{DynamicResource Dsp.IdentityNotice}" Style="{StaticResource SecondaryTextStyle}"/>
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </Border>
+
+        <Border Style="{StaticResource CardStyle}"><StackPanel>
+          <TextBlock Text="{DynamicResource Recording.CurrentFile}" Style="{StaticResource SectionTitleStyle}"/>
+          <TextBlock Text="{Binding Workspace.CurrentRecordingFile, Mode=OneWay}" ToolTip="{Binding Workspace.CurrentRecordingFile, Mode=OneWay}" TextWrapping="Wrap"/>
+          <TextBlock Text="{Binding Workspace.RecordingDropWarning, Mode=OneWay}" Foreground="{StaticResource WarningBrush}" FontWeight="SemiBold" Margin="0,9,0,0"/>
+          <TextBlock Text="{DynamicResource Recording.Folder}" Style="{StaticResource MutedTextStyle}" Margin="0,14,0,2"/>
+          <TextBlock Text="{Binding Workspace.RecordingFolder, Mode=OneWay}" ToolTip="{Binding Workspace.RecordingFolder, Mode=OneWay}" TextWrapping="Wrap"/>
+          <WrapPanel Margin="0,14,0,0"><Button Content="{DynamicResource Recording.OpenFolder}" Command="{Binding OpenFolderCommand, Mode=OneWay}"/><Button Content="{DynamicResource Recording.SelectFolder}" Command="{Binding ChooseFolderCommand, Mode=OneWay}"/><Button Content="{DynamicResource Recording.RestoreFolder}" Command="{Binding RestoreDefaultFolderCommand, Mode=OneWay}"/></WrapPanel>
+        </StackPanel></Border>
+
+        <Border Style="{StaticResource CardStyle}"><StackPanel>
+          <TextBlock Text="{DynamicResource Recording.Guidance}" Style="{StaticResource SectionTitleStyle}"/>
+          <TextBlock Text="{DynamicResource Recording.Guide1}" Margin="0,0,0,6"/>
+          <TextBlock Text="{DynamicResource Recording.Guide2}" Margin="0,0,0,6"/>
+          <TextBlock Text="{DynamicResource Recording.Guide3}" Margin="0,0,0,6"/>
+          <TextBlock Text="{DynamicResource Recording.Guide4}"/>
+        </StackPanel></Border>
+      </StackPanel>
+    </Border>
+  </ScrollViewer>
+</UserControl>

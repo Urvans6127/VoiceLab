@@ -1,0 +1,3 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>VoiceLab.Effects</AssemblyName><RootNamespace>VoiceLab.Effects</RootNamespace></PropertyGroup>
+</Project>

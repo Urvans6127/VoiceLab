@@ -1,0 +1,81 @@
+# .NET build and test output
+bin/
+obj/
+publish/
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+*.pdb
+*.zip
+*.7z
+
+# IDE and user-specific settings
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.local.json
+settings.json
+settings.*.json
+presets.json
+presets.*.json
+
+# Runtime output and personal audio
+[Rr]ecordings/
+[Ll]ogs/
+*.wav
+*.wave
+*.mp3
+*.flac
+*.aac
+*.m4a
+*.ogg
+
+# Temporary and backup files
+*.tmp
+*.temp
+*.dmp
+*.mdmp
+*.bak
+*.old
+*.orig
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+
+# Python environments and caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+pip-wheel-metadata/
+
+# Model caches and AI artifacts
+.cache/
+models/
+model-cache/
+checkpoints/
+*.onnx
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.tflite
+*.gguf
+*.bin.index.json
+
+# Historical AI/Python proof of concept; never part of production or releases
+experiments/chatterbox-poc/

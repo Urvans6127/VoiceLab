@@ -1,0 +1,3 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>VoiceLab.Infrastructure</AssemblyName><RootNamespace>VoiceLab.Infrastructure</RootNamespace></PropertyGroup>
+</Project>

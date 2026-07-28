@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>VoiceLab.Audio</AssemblyName><RootNamespace>VoiceLab.Audio</RootNamespace></PropertyGroup>
+  <ItemGroup><PackageReference Include="NAudio" Version="2.2.1" /><ProjectReference Include="..\VoiceLab.Effects\VoiceLab.Effects.csproj" /></ItemGroup>
+</Project>

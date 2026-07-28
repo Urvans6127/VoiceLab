@@ -1,0 +1,44 @@
+<UserControl x:Class="VoiceLab.App.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <UserControl.Resources>
+    <DataTemplate x:Key="AudioDeviceComboTemplate"><TextBlock Text="{Binding DisplayName, Mode=OneWay}" ToolTip="{Binding Name, Mode=OneWay}" Foreground="{StaticResource ComboBoxItemForegroundBrush}" TextWrapping="NoWrap" TextTrimming="None"/></DataTemplate>
+    <Style x:Key="MicrophoneComboBoxStyle" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ComboBox">
+            <Grid>
+              <ToggleButton x:Name="DropDownToggle" Background="{StaticResource ComboBoxBackgroundBrush}" Foreground="{StaticResource ComboBoxForegroundBrush}" BorderBrush="{StaticResource ComboBoxBorderBrush}" HorizontalContentAlignment="Left" Focusable="False" IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                <ToggleButton.Template>
+                  <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="Chrome" Background="{StaticResource ComboBoxBackgroundBrush}" BorderBrush="{StaticResource ComboBoxBorderBrush}" BorderThickness="1" CornerRadius="6" ClipToBounds="True">
+                      <Grid>
+                        <ContentPresenter x:Name="SelectedContent" Margin="10,6,34,6" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{Binding SelectionBoxItem, RelativeSource={RelativeSource AncestorType=ComboBox}, Mode=OneWay}" ContentTemplate="{Binding SelectionBoxItemTemplate, RelativeSource={RelativeSource AncestorType=ComboBox}, Mode=OneWay}" ContentTemplateSelector="{Binding ItemTemplateSelector, RelativeSource={RelativeSource AncestorType=ComboBox}, Mode=OneWay}" TextElement.Foreground="{StaticResource ComboBoxForegroundBrush}"/>
+                        <Path x:Name="Arrow" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0" Fill="{DynamicResource ComboBoxArrowBrush}" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                      </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Chrome" Property="Background" Value="{StaticResource ComboBoxHoverBackgroundBrush}"/></Trigger>
+                      <Trigger Property="IsChecked" Value="True"><Setter TargetName="Chrome" Property="Background" Value="{StaticResource ComboBoxHoverBackgroundBrush}"/><Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ComboBoxFocusedBorderBrush}"/></Trigger>
+                      <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Chrome" Property="Background" Value="{StaticResource ComboBoxDisabledBackgroundBrush}"/><Setter TargetName="SelectedContent" Property="TextElement.Foreground" Value="{StaticResource ComboBoxDisabledForegroundBrush}"/><Setter TargetName="Arrow" Property="Fill" Value="{StaticResource ComboBoxDisabledForegroundBrush}"/></Trigger>
+                    </ControlTemplate.Triggers>
+                  </ControlTemplate>
+                </ToggleButton.Template>
+              </ToggleButton>
+              <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" PlacementTarget="{Binding ElementName=DropDownToggle}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                <Border Background="{StaticResource ComboBoxPopupBackgroundBrush}" BorderBrush="{StaticResource ComboBoxBorderBrush}" BorderThickness="1" CornerRadius="6" MinWidth="{Binding ActualWidth, ElementName=DropDownToggle, Mode=OneWay}">
+                  <ScrollViewer MaxHeight="320" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"><ItemsPresenter/></ScrollViewer>
+                </Border>
+              </Popup>
+            </Grid>
+            <ControlTemplate.Triggers><Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter TargetName="DropDownToggle" Property="BorderBrush" Value="{StaticResource ComboBoxFocusedBorderBrush}"/></Trigger></ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </UserControl.Resources>
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><Border Padding="0,0,0,22"><StackPanel MaxWidth="940">
+    <TextBlock Text="{DynamicResource Devices.Title}" Style="{StaticResource PageTitleStyle}"/><TextBlock Text="{DynamicResource Devices.Description}" Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,20"/>
+    <Border Style="{StaticResource CardStyle}"><StackPanel HorizontalAlignment="Left"><TextBlock Text="{DynamicResource Devices.Microphone}" Style="{StaticResource SectionTitleStyle}" HorizontalAlignment="Left" TextAlignment="Left"/><TextBlock Text="{DynamicResource Devices.InputDevice}" HorizontalAlignment="Left" TextAlignment="Left"/><ComboBox ItemsSource="{Binding Workspace.Inputs, Mode=OneWay}" SelectedItem="{Binding Workspace.SelectedInput}" ItemTemplate="{StaticResource AudioDeviceComboTemplate}" Style="{StaticResource MicrophoneComboBoxStyle}" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="{StaticResource ControlSpacing}"/><TextBlock Text="{Binding Workspace.DeviceLossStatus, Mode=OneWay}" Style="{StaticResource SecondaryTextStyle}" HorizontalAlignment="Left" TextAlignment="Left"/><Button Content="{DynamicResource Devices.Refresh}" Command="{Binding Workspace.RefreshCommand, Mode=OneWay}" HorizontalAlignment="Left" Margin="0,12,0,0"/></StackPanel></Border>
+    <Border Style="{StaticResource CardStyle}"><StackPanel><TextBlock Text="{DynamicResource Devices.AudioQuality}" Style="{StaticResource SectionTitleStyle}"/><Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><StackPanel Margin="0,0,18,0"><TextBlock Text="{DynamicResource Devices.LatencyProfile}"/><ComboBox SelectedValue="{Binding Workspace.SelectedLatencyProfile}" SelectedValuePath="Tag" Margin="{StaticResource ControlSpacing}"><ComboBoxItem Content="{DynamicResource Latency.Safe}" Tag="Safe"/><ComboBoxItem Content="{DynamicResource Latency.Balanced}" Tag="Balanced"/><ComboBoxItem Content="{DynamicResource Latency.Low}" Tag="Low Latency"/></ComboBox></StackPanel><StackPanel Grid.Column="1"><TextBlock Text="{DynamicResource Devices.PreferredSampleRate}"/><ComboBox SelectedValue="{Binding Workspace.PreferredSampleRate}" SelectedValuePath="Tag" Margin="{StaticResource ControlSpacing}"><ComboBoxItem Content="48,000 Hz" Tag="48000"/><ComboBoxItem Content="44,100 Hz" Tag="44100"/></ComboBox></StackPanel></Grid><UniformGrid Columns="2"><StackPanel Margin="0,0,12,10"><TextBlock Text="{DynamicResource Devices.RequestedBuffer}" Style="{StaticResource MutedTextStyle}"/><TextBlock Text="{Binding Workspace.RequestedBuffer, Mode=OneWay}"/></StackPanel><StackPanel Margin="0,0,0,10"><TextBlock Text="{DynamicResource Devices.ActiveBuffer}" Style="{StaticResource MutedTextStyle}"/><TextBlock Text="{Binding Workspace.ActiveBuffer, Mode=OneWay}"/></StackPanel><StackPanel><TextBlock Text="{DynamicResource Devices.ActiveSampleRate}" Style="{StaticResource MutedTextStyle}"/><TextBlock Text="{Binding Workspace.Format, Mode=OneWay}"/></StackPanel><StackPanel><TextBlock Text="{DynamicResource Devices.EstimatedBuffering}" Style="{StaticResource MutedTextStyle}"/><TextBlock Text="{Binding Workspace.Latency, Mode=OneWay}"/></StackPanel></UniformGrid><TextBlock Text="{DynamicResource Devices.QualityDescription}" Style="{StaticResource SecondaryTextStyle}" Margin="0,12,0,0"/></StackPanel></Border>
+    <Border Style="{StaticResource CardStyle}"><StackPanel><TextBlock Text="{DynamicResource Devices.Diagnostics}" Style="{StaticResource SectionTitleStyle}"/><TextBlock Text="{Binding Workspace.DiagnosticStatus, Mode=OneWay}" Style="{StaticResource SecondaryTextStyle}"/><TextBlock Text="{Binding Workspace.DroppedStatus, Mode=OneWay}" Foreground="{StaticResource WarningBrush}"/><TextBlock><Run Text="{DynamicResource Devices.ActiveInput}"/><Run Text=" "/><Run Text="{Binding Workspace.ActiveInput, Mode=OneWay}"/></TextBlock><TextBlock Text="{Binding Workspace.Error, Mode=OneWay}" Foreground="{StaticResource DangerBrush}" FontWeight="SemiBold"/></StackPanel></Border>
+  </StackPanel></Border></ScrollViewer>
+</UserControl>

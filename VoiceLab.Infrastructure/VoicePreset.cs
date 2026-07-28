@@ -1,0 +1,2 @@
+namespace VoiceLab.Infrastructure;
+public sealed record VoicePreset(string Name,bool IsBuiltIn,float InputGain,float OutputGain,bool GateEnabled,float GateThresholdDb,float GateAttackMs,float GateReleaseMs,bool PitchEnabled,float PitchSemitones,bool RobotEnabled,float RobotFrequency,float RobotMix,bool EchoEnabled,float EchoDelayMs,float EchoFeedback,float EchoMix,bool ReverbEnabled,float ReverbRoomSize,float ReverbMix,float VoiceDepth,float Brightness,float BassDb,float TrebleDb,float ToneMix,float Saturation);
